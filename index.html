@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Bosque Mágico: ¡Cuenta y Alimenta!</title>
+    <!-- Google Fonts for friendly rounded typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- BACKGROUND DECORATIONS -->
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="sun"></div>
+        <div class="tree-back tree-1"></div>
+        <div class="tree-back tree-2"></div>
+
+        <!-- SCREEN 1: START MENU -->
+        <section id="menu-screen" class="screen active">
+            <div class="title-container">
+                <h1 class="main-title">El Bosque Mágico</h1>
+                <h2 class="sub-title">¡Cuenta y Alimenta! 🍎🥕🍓</h2>
+            </div>
+            
+            <div class="welcome-box">
+                <p>¡Elige hasta qué número quieres contar para jugar!</p>
+                <div class="difficulty-options">
+                    <button class="btn btn-level btn-easy" data-max="3">
+                        <span class="num-badge">3</span>
+                        <span>Fácil<br><small>Contar hasta 3</small></span>
+                    </button>
+                    <button class="btn btn-level btn-medium" data-max="5">
+                        <span class="num-badge">5</span>
+                        <span>Normal<br><small>Contar hasta 5</small></span>
+                    </button>
+                    <button class="btn btn-level btn-hard" data-max="10">
+                        <span class="num-badge">10</span>
+                        <span>Desafío<br><small>Contar hasta 10</small></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="credits">Diseñado con cariño para niños de preescolar 🎨</div>
+        </section>
+
+        <!-- SCREEN 2: GAMEPLAY -->
+        <section id="game-screen" class="screen">
+            <!-- Game Header -->
+            <header class="game-header">
+                <button id="btn-home" class="btn-icon" title="Volver al menú">🏠</button>
+                <div class="header-center">
+                    <div id="level-badge" class="level-indicator">Hasta 5</div>
+                </div>
+                <button id="btn-sound" class="btn-icon" title="Activar/Desactivar Voz">🔊</button>
+            </header>
+
+            <!-- Instructions Area -->
+            <div class="instruction-bubble-container">
+                <div class="instruction-bubble">
+                    <p id="instruction-text">Cargando juego...</p>
+                    <button id="btn-repeat-voice" class="btn-audio-repeat" title="Escuchar de nuevo">🗣️</button>
+                </div>
+            </div>
+
+            <!-- Main Play Space -->
+            <div class="play-area">
+                <!-- Left: Animal Area -->
+                <div class="animal-container">
+                    <div id="active-animal" class="animal-wrapper">
+                        <!-- SVG Bear (Oso) -->
+                        <div class="animal-character oso-character" id="oso-svg">
+                            <svg viewBox="0 0 200 200" width="100%" height="100%">
+                                <!-- Ears -->
+                                <circle cx="50" cy="50" r="28" fill="#8B5A2B" />
+                                <circle cx="50" cy="50" r="16" fill="#CD853F" />
+                                <circle cx="150" cy="50" r="28" fill="#8B5A2B" />
+                                <circle cx="150" cy="50" r="16" fill="#CD853F" />
+                                <!-- Body/Shoulders -->
+                                <path d="M 40 180 Q 100 130 160 180" stroke="#8B5A2B" stroke-width="40" stroke-linecap="round" fill="none" />
+                                <!-- Head -->
+                                <circle cx="100" cy="100" r="65" fill="#A0522D" />
+                                <!-- Cheeks -->
+                                <circle cx="55" cy="115" r="10" fill="#FFA07A" opacity="0.6" />
+                                <circle cx="145" cy="115" r="10" fill="#FFA07A" opacity="0.6" />
+                                <!-- Eyes -->
+                                <g class="eyes">
+                                    <circle class="eye eye-left" cx="70" cy="90" r="9" fill="#2F1F17" />
+                                    <circle class="eye-pupil" cx="68" cy="88" r="3" fill="#FFF" />
+                                    <circle class="eye eye-right" cx="130" cy="90" r="9" fill="#2F1F17" />
+                                    <circle class="eye-pupil" cx="128" cy="88" r="3" fill="#FFF" />
+                                </g>
+                                <!-- Snout/Muzzle -->
+                                <ellipse cx="100" cy="122" rx="30" ry="22" fill="#D2B48C" />
+                                <path d="M 90 112 Q 100 102 110 112" fill="none" stroke="#2F1F17" stroke-width="3" stroke-linecap="round"/>
+                                <polygon points="92,112 108,112 100,120" fill="#2F1F17" />
+                                <!-- Mouth (Animated Height) -->
+                                <ellipse class="mouth-eating" cx="100" cy="132" rx="14" ry="4" fill="#5C2E0B" />
+                            </svg>
+                        </div>
+
+                        <!-- SVG Bunny (Conejo) -->
+                        <div class="animal-character conejo-character hidden" id="conejo-svg">
+                            <svg viewBox="0 0 200 200" width="100%" height="100%">
+                                <!-- Ears -->
+                                <g class="ear-left-g">
+                                    <ellipse cx="65" cy="40" rx="16" ry="45" fill="#EAEAEA" transform="rotate(-15 65 40)" />
+                                    <ellipse cx="65" cy="40" rx="8" ry="30" fill="#FFC0CB" transform="rotate(-15 65 40)" />
+                                </g>
+                                <g class="ear-right-g">
+                                    <ellipse cx="135" cy="40" rx="16" ry="45" fill="#EAEAEA" transform="rotate(15 135 40)" />
+                                    <ellipse cx="135" cy="40" rx="8" ry="30" fill="#FFC0CB" transform="rotate(15 135 40)" />
+                                </g>
+                                <!-- Body/Shoulders -->
+                                <path d="M 40 180 Q 100 130 160 180" stroke="#EAEAEA" stroke-width="40" stroke-linecap="round" fill="none" />
+                                <!-- Head -->
+                                <circle cx="100" cy="105" r="60" fill="#F7F7F7" />
+                                <!-- Cheeks -->
+                                <circle cx="55" cy="120" r="10" fill="#FFB6C1" opacity="0.6" />
+                                <circle cx="145" cy="120" r="10" fill="#FFB6C1" opacity="0.6" />
+                                <!-- Eyes -->
+                                <g class="eyes">
+                                    <circle class="eye eye-left" cx="72" cy="95" r="8" fill="#333333" />
+                                    <circle class="eye-pupil" cx="70" cy="93" r="2.5" fill="#FFF" />
+                                    <circle class="eye eye-right" cx="128" cy="95" r="8" fill="#333333" />
+                                    <circle class="eye-pupil" cx="126" cy="93" r="2.5" fill="#FFF" />
+                                </g>
+                                <!-- Nose & Mouth -->
+                                <polygon points="95,114 105,114 100,119" fill="#FF82AB" />
+                                <path d="M 100,119 Q 95,125 90,123 M 100,119 Q 105,125 110,123" fill="none" stroke="#333" stroke-width="3" stroke-linecap="round" />
+                                <!-- Mouth (Animated Height) -->
+                                <ellipse class="mouth-eating" cx="100" cy="132" rx="12" ry="4" fill="#8B0000" />
+                            </svg>
+                        </div>
+
+                        <!-- SVG Frog (Rana) -->
+                        <div class="animal-character rana-character hidden" id="rana-svg">
+                            <svg viewBox="0 0 200 200" width="100%" height="100%">
+                                <!-- Head / Body integrated -->
+                                <ellipse cx="100" cy="115" rx="72" ry="55" fill="#4CAF50" />
+                                <!-- Belly -->
+                                <ellipse cx="100" cy="135" rx="45" ry="30" fill="#C8E6C9" />
+                                <!-- Eyes -->
+                                <g class="eye-sockets">
+                                    <circle cx="65" cy="65" r="24" fill="#4CAF50" />
+                                    <circle cx="65" cy="65" r="18" fill="#FFF" />
+                                    <circle class="eye-pupil-frog" cx="65" cy="65" r="8" fill="#000" />
+                                    <circle cx="62" cy="62" r="3" fill="#FFF" />
+                                    
+                                    <circle cx="135" cy="65" r="24" fill="#4CAF50" />
+                                    <circle cx="135" cy="65" r="18" fill="#FFF" />
+                                    <circle class="eye-pupil-frog" cx="135" cy="65" r="8" fill="#000" />
+                                    <circle cx="132" cy="62" r="3" fill="#FFF" />
+                                </g>
+                                <!-- Cheeks -->
+                                <circle cx="45" cy="115" r="9" fill="#FF7043" opacity="0.6" />
+                                <circle cx="155" cy="115" r="9" fill="#FF7043" opacity="0.6" />
+                                <!-- Smile line (normal state) -->
+                                <path class="frog-smile" d="M 60 120 Q 100 145 140 120" fill="none" stroke="#2E7D32" stroke-width="4" stroke-linecap="round" />
+                                <!-- Mouth (Animated Height) -->
+                                <ellipse class="mouth-eating" cx="100" cy="132" rx="22" ry="4" fill="#3E2723" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Food & Feeding Area -->
+                <div class="feeding-container">
+                    <div class="progress-bar-stars" id="stars-container">
+                        <!-- Stars will be dynamically loaded here -->
+                    </div>
+                    
+                    <div class="food-plate-title">Haz clic o arrastra la comida:</div>
+                    <div class="food-plate" id="food-container">
+                        <!-- Food items will be dynamically loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Counter info -->
+            <footer class="game-footer">
+                <div class="counter-display">
+                    <span class="count-label">Llevamos:</span>
+                    <span id="current-count" class="count-number">0</span>
+                    <span class="count-divider">/</span>
+                    <span id="target-count" class="count-number-target">5</span>
+                </div>
+            </footer>
+        </section>
+
+        <!-- SCREEN 3: SUCCESS MODAL -->
+        <div id="victory-modal" class="modal-overlay">
+            <div class="modal-content">
+                <div class="victory-stars">⭐🌟⭐</div>
+                <h2 id="victory-title">¡Excelente! 🎉</h2>
+                <p id="victory-message">Has alimentado muy bien al oso.</p>
+                <div id="victory-icon-showcase"></div>
+                <div class="modal-buttons">
+                    <button id="btn-next-animal" class="btn btn-primary">Siguiente Animal ➡️</button>
+                    <button id="btn-play-again" class="btn btn-secondary">Jugar otra vez 🔁</button>
+                </div>
+            </div>
+            <canvas id="confetti-canvas"></canvas>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>
